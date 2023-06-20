@@ -20,7 +20,7 @@ public class ArticleService {
 	
 	// 서비스 메서드
 	public void writeArticle(String title, String body) {
-		
+		articleDao.writeArticle(title, body);
 	}
 	
 	public Article getArticleById(int id) {
