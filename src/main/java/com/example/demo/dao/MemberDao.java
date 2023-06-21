@@ -31,5 +31,26 @@ public interface MemberDao {
 
 	@Select("SELECT LAST_INSERT_ID()")
 	public int getLastInsertId();
+
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE loginId = #{loginId}
+			""")
+	public Member getMemberLoginId(String loginId);
+
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE nickname = #{nickname}
+			""")
+	public Member getMemberByNickname(String nickname);
+
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE name = #{name} AND email = #{email}
+			""")
+	public Member getMemberByNameAndEmail(String name, String email);
 	
 }

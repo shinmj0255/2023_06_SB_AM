@@ -16,8 +16,42 @@ public class MemberService {
 		this.memberDao = memberDao;
 	}
 
-	public void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		
+		Member existsMember = getMemberByLoginId(loginId);
+		
+		if (existsMember != null) {
+			return -1;
+		}
+		
+		existsMember = getMemberByNickname(nickname);
+		
+		if (existsMember != null) {
+			return -2;
+		}
+
+		existsMember = getMemberByNameAndEmail(name,email);
+		
+		if (existsMember != null) {
+			return -3;
+		}
+		
 		memberDao.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+		
+		return getLastInsertId();
+	}
+
+
+	private Member getMemberByLoginId(String loginId) {
+		return memberDao.getMemberLoginId(loginId);
+	}
+
+	private Member getMemberByNickname(String nickname) {
+		return memberDao.getMemberByNickname(nickname);
+	}
+
+	private Member getMemberByNameAndEmail(String name, String email) {
+		return memberDao.getMemberByNameAndEmail(name,email);
 	}
 
 	public Member getMemberById(int id) {
