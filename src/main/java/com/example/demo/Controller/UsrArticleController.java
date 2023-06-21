@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
+import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.ResultData;
 
 @Controller
 public class UsrArticleController {
@@ -23,13 +25,21 @@ public class UsrArticleController {
 	// 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public Article doAdd(String title, String body) {
+	public ResultData doAdd(String title, String body) {
+		
+		if (Util.empty(title)) {
+			return ResultData.from("F-10", "제목을 입력해주세요.");
+		}
+
+		if (Util.empty(body)) {
+			return ResultData.from("F-11", "내용을 입력해주세요.");
+		}
 		
 		articleService.writeArticle(title, body);
 		
 		int id = articleService.getLastInsertId();
 		
-		return articleService.getArticleById(id);
+		return ResultData.from("S-1", Util.f("%d번 게시글이 생성되었습니다", id), articleService.getArticleById(id));
 	}
 
 	@RequestMapping("/usr/article/getArticles")
@@ -40,15 +50,15 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public Object getArticle(int id) {
+	public ResultData getArticle(int id) {
 		
 		Article foundArticle = articleService.getArticleById(id);
 		
 		if (foundArticle == null) {
-			return id + "번 게시글은 존재하지 않습니다";
+			return ResultData.from("F-1", Util.f("%d번 게시글은 존재하지 않습니다", id));
 		}
 		
-		return foundArticle;
+		return ResultData.from("S-1", Util.f("%d번 게시글 입니다", id), foundArticle);
 	}
 	
 	@RequestMapping("/usr/article/doModify")
