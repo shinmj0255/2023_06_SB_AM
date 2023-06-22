@@ -25,14 +25,14 @@ public class UsrArticleController {
 	// 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title, String body) {
+	public ResultData<Article> doAdd(String title, String body) {
 		
 		if (Util.empty(title)) {
-			return ResultData.from("F-10", "제목을 입력해주세요.");
+			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}
 
 		if (Util.empty(body)) {
-			return ResultData.from("F-11", "내용을 입력해주세요.");
+			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
 		articleService.writeArticle(title, body);
@@ -44,13 +44,20 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public List<Article> getArticles() {
-		return articleService.getArticles();
+	public ResultData<List<Article>> getArticles() {
+		
+		List<Article> articles = articleService.getArticles();
+		
+		if (articles.size() == 0) {
+			return ResultData.from("F-1", "게시글이 존재하지 않습니다");
+		}
+		
+		return ResultData.from("S-1", "게시글 리스트", articles) ;
 	}
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticle(int id) {
+	public ResultData<Article> getArticle(int id) {
 		
 		Article foundArticle = articleService.getArticleById(id);
 		
@@ -63,31 +70,31 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body) {
+	public ResultData doModify(int id, String title, String body) {
 		
 		Article foundArticle = articleService.getArticleById(id);
 		
 		if (foundArticle == null) {
-			return id + "번 게시글은 존재하지 않습니다";
+			return ResultData.from("F-1", Util.f("%d번 게시글은 존재하지 않습니다", id));
 		}
 		
 		articleService.modifyArticle(id, title, body);
 		
-		return id + "번 게시글을 수정했습니다";
+		return ResultData.from("S-1", Util.f("%d번 게시글을 수정했습니다", id));
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(int id) {
+	public ResultData doDelete(int id) {
 		
 		Article foundArticle = articleService.getArticleById(id);
 		
 		if (foundArticle == null) {
-			return id + "번 게시글은 존재하지 않습니다";
+			return ResultData.from("F-1", Util.f("%d번 게시글은 존재하지 않습니다", id));
 		}
 		
 		articleService.deleteArticle(id);
 		
-		return id + "번 게시글을 삭제했습니다";
+		return ResultData.from("S-1", Util.f("%d번 게시글을 삭제했습니다", id));
 	}
 }

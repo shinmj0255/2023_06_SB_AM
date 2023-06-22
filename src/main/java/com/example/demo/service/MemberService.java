@@ -18,7 +18,7 @@ public class MemberService {
 		this.memberDao = memberDao;
 	}
 
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		Member existsMember = getMemberByLoginId(loginId);
 		
@@ -40,7 +40,7 @@ public class MemberService {
 		
 		memberDao.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
-		return ResultData.from("S-3", Util.f("%s님이 가입하셨습니다.", nickname), getMemberById(getLastInsertId()));
+		return ResultData.from("S-1", Util.f("%s님이 가입하셨습니다.", nickname), getMemberById(getLastInsertId()));
 	}
 
 
