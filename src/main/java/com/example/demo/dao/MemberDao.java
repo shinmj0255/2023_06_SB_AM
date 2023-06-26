@@ -37,20 +37,21 @@ public interface MemberDao {
 				FROM `member`
 				WHERE loginId = #{loginId}
 			""")
-	public Member getMemberLoginId(String loginId);
+	public Member getMemberByLoginId(String loginId);
 
+	@Select("""
+			SELECT *
+				FROM `member`
+				WHERE `name` = #{name}
+				AND email = #{email}
+			""")
+	public Member getMemberByNameAndEmail(String name, String email);
+	
 	@Select("""
 			SELECT *
 				FROM `member`
 				WHERE nickname = #{nickname}
 			""")
 	public Member getMemberByNickname(String nickname);
-
-	@Select("""
-			SELECT *
-				FROM `member`
-				WHERE name = #{name} AND email = #{email}
-			""")
-	public Member getMemberByNameAndEmail(String name, String email);
 	
 }

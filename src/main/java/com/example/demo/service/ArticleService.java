@@ -29,11 +29,11 @@ public class ArticleService {
 		return articleDao.getArticleById(id);
 	}
 	
-public ResultData<Article> modifyArticle(int id, String title, String body) {
+	public ResultData<Article> modifyArticle(int id, String title, String body) {
 		
 		articleDao.modifyArticle(id, title, body);
 		
-		return ResultData.from("S-1", Util.f("%d번 게시글을 수정했습니다", id), getArticleById(id));
+		return ResultData.from("S-1", Util.f("%d번 게시글을 수정했습니다", id), "article", getArticleById(id));
 	}
 	
 	public void deleteArticle(int id) {
@@ -46,10 +46,9 @@ public ResultData<Article> modifyArticle(int id, String title, String body) {
 
 	public int getLastInsertId() {
 		return articleDao.getLastInsertId();
-		
 	}
 
-public ResultData actorCanModify(int loginedMemberId, int memberId) {
+	public ResultData actorCanModify(int loginedMemberId, int memberId) {
 		
 		if(loginedMemberId != memberId) {
 			return ResultData.from("F-B", "해당 게시글에 대한 권한이 없습니다");
