@@ -55,7 +55,7 @@ public class UsrArticleController {
 		List<Article> articles = articleService.getArticles();
 
 		model.addAttribute("articles", articles);
-		
+
 		return "usr/article/list";
 	}
 
@@ -63,41 +63,40 @@ public class UsrArticleController {
 	public String showDetail(Model model, HttpSession session, int id) {
 
 		int loginedMemberId = 0;
-		
-		if(session.getAttribute("loginedMemberId") != null) {
+
+		if (session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
-		
+
 		Article article = articleService.getForPrintArticle(id);
 
 		model.addAttribute("article", article);
 		model.addAttribute("loginedMemberId", loginedMemberId);
-		
+
 		return "usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Article> doModify(HttpSession session, int id, String title, String body) {
+	public String doModify(HttpSession session, int id, String title, String body) {
 
 		if (session.getAttribute("loginedMemberId") == null) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
+			return Util.jsHistoryBack("로그인 후 이용해주세요");
+		}
+
+		Article article = articleService.getArticleById(id);
+
+		if (article == null) {
+			return Util.jsHistoryBack(Util.f("%d번 게시글은 존재하지 않습니다", id));
+		}
+
+		if ((int) session.getAttribute("loginedMemberId") != article.getMemberId()) {
+			return Util.jsHistoryBack("해당 게시글에 대한 권한이 없습니다");
 		}
 		
-		Article foundArticle = articleService.getArticleById(id);
-
-		if (foundArticle == null) {
-			return ResultData.from("F-2", Util.f("%d번 게시글은 존재하지 않습니다", id));
-		}
-
-		ResultData actorCanModifyRd = articleService.actorCanModify((int) session.getAttribute("loginedMemberId"),
-				foundArticle.getMemberId());
-
-		if (actorCanModifyRd.isFail()) {
-			return actorCanModifyRd;
-		}
-
-		return articleService.modifyArticle(id, title, body);
+		articleService.modifyArticle(id, title, body);
+		
+		return Util.jsReplace(Util.f("%d번 게시글을 수정했습니다", id), Util.f("detail?id=%d", id));
 	}
 
 	@RequestMapping("/usr/article/doDelete")
