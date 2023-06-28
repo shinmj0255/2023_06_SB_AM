@@ -1,14 +1,14 @@
 /* @charset "UTF-8"; */
 
 @font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-family: 'LeeSeoyun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 html > body {
-	font-family: 'GmarketSansMedium', sans-serif;
+	font-family: 'LeeSeoyun', sans-serif;
 	text-underline-position:under;
 }
 
