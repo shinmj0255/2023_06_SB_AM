@@ -9,7 +9,7 @@
 		<div class="container mx-auto">
 			<div class="table-box-type-1">
 				<table>
-					<thead>
+					<thead class="bg-yellow-400">
 						<tr>
 							<th>번호</th>
 							<th>작성일</th>
