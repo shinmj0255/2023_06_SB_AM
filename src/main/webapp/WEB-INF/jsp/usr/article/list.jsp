@@ -32,7 +32,7 @@
 			
 			<c:if test="${rq.getLoginedMemberId() != 0 }">
 				<div class="mt-2 flex justify-end">
-					<a class="btn btn-accent btn-sm" href="write">WRITE</a>
+					<a class="btn btn-outline btn-warning" href="write">글쓰기</a>
 				</div>
 			</c:if>
 		</div>
