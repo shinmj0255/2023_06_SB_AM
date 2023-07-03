@@ -11,22 +11,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
-import com.example.demo.vo.ResultData;
+import com.example.demo.vo.Board;
 import com.example.demo.vo.Rq;
 
 @Controller
 public class UsrArticleController {
 
 	private ArticleService articleService;
+	private BoardService boardService;
 
 	@Autowired
-	public UsrArticleController(ArticleService articleService) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService) {
 		this.articleService = articleService;
+		this.boardService = boardService;
 	}
 
-	// 액션 메서드
+	@RequestMapping("/usr/article/write")
+	public String write() {
+		return "usr/article/write";
+	}
+	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, String title, String body) {
@@ -45,49 +52,30 @@ public class UsrArticleController {
 
 		int id = articleService.getLastInsertId();
 
-		return Util.jsReplace(Util.f("%d번 게시글이 생성되었습니다", id), "list");
+		return Util.jsReplace(Util.f("%d번 게시글이 생성되었습니다", id), Util.f("detail?id=%d", id));
 	}
-	
-	@RequestMapping("/usr/article/write")
-	public String write() {
-		return "usr/article/write";
-	}
-
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
+	public String showList(Model model, int boardId) {
 
-		List<Article> articles = articleService.getArticles();
+		Board board = boardService.getBoardById(boardId);
+		
+		List<Article> articles = articleService.getArticles(boardId);
 
 		model.addAttribute("articles", articles);
+		model.addAttribute("board", board);
 		
 		return "usr/article/list";
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(HttpServletRequest req, Model model, int id) {
+	public String showDetail(Model model, int id) {
 
-		Rq rq = (Rq) req.getAttribute("rq");
-		
 		Article article = articleService.getForPrintArticle(id);
 
 		model.addAttribute("article", article);
-		model.addAttribute("loginedMemberId", rq.getLoginedMemberId());
 		
 		return "usr/article/detail";
-	}
-
-	@RequestMapping("/usr/article/doModify")
-	@ResponseBody
-	public String doModify(HttpServletRequest req, int id, String title, String body) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
-		
-		Article article = articleService.getArticleById(id);
-
-		articleService.modifyArticle(id, title, body);
-		
-		return Util.jsReplace(Util.f("%d번 게시글을 수정했습니다", id), Util.f("detail?id=%d", id));
 	}
 	
 	@RequestMapping("/usr/article/modify")
@@ -108,6 +96,27 @@ public class UsrArticleController {
 		model.addAttribute("article", article);
 		
 		return "usr/article/modify";
+	}
+
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public String doModify(HttpServletRequest req, int id, String title, String body) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		Article article = articleService.getArticleById(id);
+
+		if (article == null) {
+			return Util.jsHistoryBack(Util.f("%d번 게시글은 존재하지 않습니다", id));
+		}
+
+		if (rq.getLoginedMemberId() != article.getMemberId()) {
+			return Util.jsHistoryBack("해당 게시글에 대한 권한이 없습니다");
+		}
+		
+		articleService.modifyArticle(id, title, body);
+		
+		return Util.jsReplace(Util.f("%d번 게시글을 수정했습니다", id), Util.f("detail?id=%d", id));
 	}
 
 	@RequestMapping("/usr/article/doDelete")
