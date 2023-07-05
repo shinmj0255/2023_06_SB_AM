@@ -13,12 +13,6 @@
 				, `body` = #{body}
 	</insert>
 	
-<select id="getArticlesCnt" resultType="int">
-		SELECT COUNT(*)
-			FROM article
-			WHERE boardId = #{boardId}
-	</select>
-	
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
@@ -47,6 +41,13 @@
 				AND A.boardId = #{boardId}
 			</if>
 			ORDER BY A.id DESC
+			LIMIT #{limitStart}, #{itemsInAPage}
+	</select>
+	
+	<select id="getArticlesCnt" resultType="int">
+		SELECT COUNT(*)
+			FROM article
+			WHERE boardId = #{boardId}
 	</select>
 	
 	<update id="modifyArticle">
