@@ -33,20 +33,20 @@
 						</tr>
 						<tr>
 							<th>제목</th>
-							<td><input name="title" type="text" value="${article.title }" class="input input-bordered input-warning w-full max-w-xs"/></td>
+							<td><input name="title" type="text" value="${article.title }" class="input input-bordered input-warning w-full"/></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea class="textarea textarea-warning" name="body">${article.body } </textarea></td>
+							<td><textarea class="textarea textarea-warning w-full" name="body">${article.body } </textarea></td>
 						</tr>
 						<tr>
-							<td colspan="2"><button class="btn btn-warning">수정</button></td>
+							<td colspan="2"><button class="btn btn-warning btn-sm">수정</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div>
-				<button class="btn btn-outline btn-warning" onclick="history.back();">뒤로가기</button>
+				<button class="mt-2 btn btn-outline btn-warning btn-sm" onclick="history.back();">뒤로가기</button>
 			</div>
 		</form>
 	</div>

@@ -13,9 +13,9 @@
 						<col width="200" />
 					</colgroup>
 					<tbody>
-						<tr>
+						<tr >
 							<th>번호</th>
-							<td>${article.id }</td>
+							<td><span class="badge badge-warning">${article.id }</span></td>
 						</tr>
 						<tr>
 							<th>작성일</th>
@@ -41,11 +41,11 @@
 				</table>
 			</div>
 			<div>
-				<button class="mt-2 btn btn-outline btn-warning" onclick="history.back();">뒤로가기</button>
+				<button class="mt-2 btn btn-outline btn-warning btn-sm" onclick="history.back();">뒤로가기</button>
 				
 				<c:if test="${article.memberId == loginedMemberId }">
-					<a class="mt-2 btn btn-outline btn-warning" href="modify?id=${article.id}">수정</a>
-					<a class="mt-2 btn btn-outline btn-warning" href="doDelete?id=${article.id}" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
+					<a class="mt-2 btn btn-outline btn-warning btn-sm" href="modify?id=${article.id}">수정</a>
+					<a class="mt-2 btn btn-outline btn-warning btn-sm" href="doDelete?id=${article.id}" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a>
 				</c:if>
 			</div>
 		</div>

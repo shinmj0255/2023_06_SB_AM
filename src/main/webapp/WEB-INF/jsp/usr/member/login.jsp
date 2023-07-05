@@ -23,14 +23,14 @@
 								<td><input class="input input-bordered input-warning w-full max-w-xs" type="text" name="loginPw" placeholder="비밀번호를 입력해주세요" /></td>
 							</tr>
 							<tr>
-								<td colspan="2"><button class="btn btn-warning">로그인</button></td>
+								<td colspan="2"><button class="btn btn-warning btn-sm">로그인</button></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</form>
 			<div>
-				<button class="btn btn-outline btn-warning" onclick="history.back();">뒤로가기</button>
+				<button class="mt-2 btn btn-outline btn-warning btn-sm" onclick="history.back();">뒤로가기</button>
 			</div>
 		</div>
 	</section>

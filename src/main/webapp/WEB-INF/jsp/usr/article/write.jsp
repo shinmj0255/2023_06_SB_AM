@@ -35,13 +35,13 @@
 							<td><textarea class="textarea textarea-warning w-full" name="body" placeholder="내용을 입력해주세요"></textarea></td>
 						</tr>
 						<tr>
-							<td colspan="2"><button class="btn btn-warning">작성</button></td>
+							<td colspan="2"><button class="btn btn-warning btn-sm">작성</button></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div>
-				<button class="mt-2 btn btn-outline btn-warning" onclick="history.back();">뒤로가기</button>
+				<button class="mt-2 btn btn-outline btn-warning btn-sm" onclick="history.back();">뒤로가기</button>
 			</div>
 		</form>
 	</div>
