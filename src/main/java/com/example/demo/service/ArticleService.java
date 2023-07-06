@@ -65,5 +65,9 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", "조회수 증가");
 	}
+
+	public int getArticleVCnt(int id) {
+		return articleDao.getArticleVCnt(id);
+	}
 	
 }

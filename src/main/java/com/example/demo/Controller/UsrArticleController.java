@@ -90,21 +90,32 @@ public class UsrArticleController {
 
 		return "usr/article/list";
 	}
-
+		
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-
-		ResultData increaseVCntRd = articleService.increaseVCnt(id);
-		
-		if (increaseVCntRd.isFail()) {
-			return rq.jsReturnOnView(increaseVCntRd.getMsg());
-		}
 		
 		Article article = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseVCnt")
+	@ResponseBody
+	public ResultData doIncreaseVCnt(int id) {
+		
+		ResultData increaseVCntRd = articleService.increaseVCnt(id);
+		
+		if (increaseVCntRd.isFail()) {
+			return increaseVCntRd;
+		}
+		
+		ResultData rd = ResultData.from(increaseVCntRd.getResultCode(), increaseVCntRd.getMsg(), "hitCnt", articleService.getArticleVCnt(id));
+		
+		rd.setData2("id", id);
+		
+		return rd;
 	}
 
 	@RequestMapping("/usr/article/modify")

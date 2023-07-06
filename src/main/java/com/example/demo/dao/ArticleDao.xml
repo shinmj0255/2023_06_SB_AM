@@ -85,6 +85,12 @@
 			WHERE id = #{id}
 	</update>
 	
+	<select id="getArticleVCnt" resultType="int">
+		SELECT VCnt
+			FROM article
+			WHERE id = #{id}
+	</select>
+	
 	<update id="modifyArticle">
 		UPDATE article
 			<set>
