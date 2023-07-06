@@ -79,6 +79,12 @@
 			</if>
 	</select>
 	
+	<update id="increaseVCnt">
+		UPDATE article
+			SET VCnt = VCnt + 1
+			WHERE id = #{id}
+	</update>
+	
 	<update id="modifyArticle">
 		UPDATE article
 			<set>

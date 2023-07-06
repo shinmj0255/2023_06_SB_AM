@@ -14,6 +14,7 @@ import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
+import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
 @Controller
@@ -93,8 +94,14 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 
+		ResultData increaseVCntRd = articleService.increaseVCnt(id);
+		
+		if (increaseVCntRd.isFail()) {
+			return rq.jsReturnOnView(increaseVCntRd.getMsg());
+		}
+		
 		Article article = articleService.getForPrintArticle(id);
-
+		
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
