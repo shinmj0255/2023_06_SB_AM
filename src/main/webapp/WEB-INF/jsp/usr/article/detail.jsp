@@ -7,6 +7,15 @@
 
 <script>
 	function ArticleDetail_increaseVCnt() {
+		
+		const localStorageKey = 'article_['+ ${article.id} +']_alreadyView';
+		
+		if (localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		
+		localStorage.setItem(localStorageKey, true);
+		
 		$.get('doIncreaseVCnt', {
 			id : ${article.id}
 		}, function(data){
