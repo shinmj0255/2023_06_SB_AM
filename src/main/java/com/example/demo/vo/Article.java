@@ -14,7 +14,11 @@ public class Article {
 	private int memberId;
 	private String title;
 	private String body;
+	private int VCnt;
 	
 	private String writerName;
-	private int VCnt;
+	private int goodReactionPoint;
+	private int badReactionPoint;
+	private int sumReactionPoint;
+	private boolean actorCanChangeData;
 }
