@@ -11,35 +11,36 @@ import com.example.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
-	
+
 	private ArticleDao articleDao;
-	
+
 	@Autowired
-	ArticleService(ArticleDao articleDao){
+	ArticleService(ArticleDao articleDao) {
 		this.articleDao = articleDao;
 	}
-	
+
 	// 서비스 메서드
 	public void writeArticle(int memberId, int boardId, String title, String body) {
 		articleDao.writeArticle(memberId, boardId, title, body);
 	}
-	
+
 	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
-	
+
 	public void modifyArticle(int id, String title, String body) {
 		articleDao.modifyArticle(id, title, body);
 	}
-	
+
 	public void deleteArticle(int id) {
 		articleDao.deleteArticle(id);
 	}
 
-	public List<Article> getArticles(int boardId, String searchKeyword, String searchKeywordType, int itemsInAPage, int page) {
-		
+	public List<Article> getArticles(int boardId, String searchKeyword, String searchKeywordType, int itemsInAPage,
+			int page) {
+
 		int limitStart = (page - 1) * itemsInAPage;
-		
+
 		return articleDao.getArticles(boardId, searchKeyword, searchKeywordType, limitStart, itemsInAPage);
 	}
 
@@ -55,19 +56,8 @@ public class ArticleService {
 		return articleDao.getArticlesCnt(boardId, searchKeyword, searchKeywordType);
 	}
 
-	public ResultData increaseVCnt(int id) {
-		 
-		int affectedRowsCnt = articleDao.increaseVCnt(id);
-		
-		if (affectedRowsCnt == 0) {
-			return ResultData.from("F-1", "해당 게시물은 존재하지 않습니다");
-		}
-		
-		return ResultData.from("S-1", "조회수 증가");
+	public void increaseVCnt(int id) {
+		articleDao.increaseVCnt(id);
 	}
 
-	public int getArticleVCnt(int id) {
-		return articleDao.getArticleVCnt(id);
-	}
-	
 }

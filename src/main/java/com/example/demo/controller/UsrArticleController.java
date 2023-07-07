@@ -2,6 +2,10 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +18,6 @@ import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
-import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
 @Controller
@@ -56,16 +59,14 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, 
-			@RequestParam(defaultValue = "1") int boardId,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "") String searchKeyword,
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "") String searchKeyword,
 			@RequestParam(defaultValue = "title") String searchKeywordType) {
 
 		if (page <= 0) {
 			return rq.jsReturnOnView("페이지번호가 올바르지 않습니다");
 		}
-		
+
 		Board board = boardService.getBoardById(boardId);
 
 		if (board == null) {
@@ -73,12 +74,13 @@ public class UsrArticleController {
 		}
 
 		int articlesCnt = articleService.getArticlesCnt(boardId, searchKeyword, searchKeywordType);
-		
+
 		int itemsInAPage = 10;
-		
+
 		int pagesCnt = (int) Math.ceil((double) articlesCnt / itemsInAPage);
 
-		List<Article> articles = articleService.getArticles(boardId, searchKeyword, searchKeywordType, itemsInAPage, page);
+		List<Article> articles = articleService.getArticles(boardId, searchKeyword, searchKeywordType, itemsInAPage,
+				page);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCnt", articlesCnt);
@@ -90,32 +92,42 @@ public class UsrArticleController {
 
 		return "usr/article/list";
 	}
-		
+
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {
-		
+	public String showDetail(HttpServletRequest req, HttpServletResponse resp, Model model, int id) {
+
+		Cookie oldCookie = null;
+		Cookie[] cookies = req.getCookies();
+
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("VCnt")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+
+		if (oldCookie != null) {
+			if (!oldCookie.getValue().contains("[" + id + "]")) {
+				articleService.increaseVCnt(id);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(30 * 60);
+				resp.addCookie(oldCookie);
+			}
+		} else {
+			articleService.increaseVCnt(id);
+			Cookie newCookie = new Cookie("VCnt", "[" + id + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(30 * 60);
+			resp.addCookie(newCookie);
+		}
+
 		Article article = articleService.getForPrintArticle(id);
-		
+
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
-	}
-	
-	@RequestMapping("/usr/article/doIncreaseVCnt")
-	@ResponseBody
-	public ResultData doIncreaseVCnt(int id) {
-		
-		ResultData increaseVCntRd = articleService.increaseVCnt(id);
-		
-		if (increaseVCntRd.isFail()) {
-			return increaseVCntRd;
-		}
-		
-		ResultData rd = ResultData.from(increaseVCntRd.getResultCode(), increaseVCntRd.getMsg(), "hitCnt", articleService.getArticleVCnt(id));
-		
-		rd.setData2("id", id);
-		
-		return rd;
 	}
 
 	@RequestMapping("/usr/article/modify")

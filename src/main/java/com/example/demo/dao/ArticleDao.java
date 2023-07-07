@@ -26,6 +26,4 @@ public interface ArticleDao {
 	public int getArticlesCnt(int boardId, String searchKeyword, String searchKeywordType);
 
 	public int increaseVCnt(int id);
-
-	public int getArticleVCnt(int id);
 }
