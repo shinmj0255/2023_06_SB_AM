@@ -26,6 +26,25 @@
 							<td>${article.updateDate }</td>
 						</tr>
 						<tr>
+							<th>조회수</th>
+							<td><span id="articleDetail_increaseVCnt">${article.VCnt }</span></td>
+						</tr>
+						<tr>
+							<th>추천</th>
+							<td>
+								<c:if test="${rq.getLoginedMemberId() == 0}">
+									<span>${article.sumReactionPoint }</span>
+								</c:if>
+								<c:if test="${rq.getLoginedMemberId() != 0}">
+									<a href="#">좋아요👍</a>
+									<span>${article.goodReactionPoint }</span>
+									&nbsp;&nbsp;&nbsp;
+									<a href="#">싫어요👎</a>
+									<span>${article.badReactionPoint }</span>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
 							<th>작성자</th>
 							<td>${article.writerName }</td>
 						</tr>
@@ -36,10 +55,6 @@
 						<tr>
 							<th>내용</th>
 							<td>${article.body }</td>
-						</tr>
-						<tr>
-							<th>조회수</th>
-							<td><span id="articleDetail_increaseVCnt">${article.VCnt }</span></td>
 						</tr>
 					</tbody>
 				</table>
