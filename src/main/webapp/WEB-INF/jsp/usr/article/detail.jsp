@@ -5,6 +5,30 @@
 <c:set var="pageTitle" value="Detail" />
 <%@ include file="../common/head.jsp" %>
 
+<script>
+	function getReactionPoint(){
+		
+		$.get('../reactionPoint/getReactionPoint', {
+			relTypeCode : 'article',
+			relId : ${article.id }
+		}, function(data){
+			if (data.data1.sumReactionPoint > 0) {
+				let goodBtn = $('#goodBtn');
+				goodBtn.removeClass('btn-outline');
+				goodBtn.attr('href', '../reactionPoint/doDeleteReactionPoint?relTypeCode=article&relId=${article.id }&point=1')
+			} else if (data.data1.sumReactionPoint < 0) {
+				let badBtn = $('#badBtn');
+				badBtn.removeClass('btn-outline');
+				badBtn.prop('href', '../reactionPoint/doDeleteReactionPoint?relTypeCode=article&relId=${article.id }&point=-1')
+			}
+			
+		}, 'json')
+		
+	}
+	
+	getReactionPoint();
+</script>
+
 	<section class="mt-8">
 		<div class="container mx-auto">
 			<div class="table-box-type-1">
@@ -36,11 +60,11 @@
 									<span>${article.sumReactionPoint }</span>
 								</c:if>
 								<c:if test="${rq.getLoginedMemberId() != 0}">
-									<a href="#">좋아요👍</a>
-									<span>${article.goodReactionPoint }</span>
+									<a id="goodBtn" class="btn btn-accent btn-outline btn-xs" href="../reactionPoint/doInsertReactionPoint?relTypeCode=article&relId=${article.id }&point=1">좋아요👍</a>
+									<span>: ${article.goodReactionPoint }</span>
 									&nbsp;&nbsp;&nbsp;
-									<a href="#">싫어요👎</a>
-									<span>${article.badReactionPoint }</span>
+									<a id="badBtn" class="btn btn-accent btn-outline btn-xs" href="../reactionPoint/doInsertReactionPoint?relTypeCode=article&relId=${article.id }&point=-1">싫어요👎</a>
+									<span>: ${article.badReactionPoint }</span>
 								</c:if>
 							</td>
 						</tr>

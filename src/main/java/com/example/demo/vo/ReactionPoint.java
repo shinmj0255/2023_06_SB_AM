@@ -11,6 +11,8 @@ public class ReactionPoint {
 	private int id;
 	private String regDate;
 	private String updateDate;
-	private int likepoint;
-	private int badpoint;
+	private int memberId;
+	private String relTypeCode;
+	private int relId;
+	private int sumReactionPoint;
 }
