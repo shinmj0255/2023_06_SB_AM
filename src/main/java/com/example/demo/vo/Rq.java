@@ -20,6 +20,8 @@ public class Rq {
 	
 	@Getter
 	private int loginedMemberId;
+	@Getter
+	private Member loginedMember;
 	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
@@ -33,6 +35,7 @@ public class Rq {
 		this.session = req.getSession();
 		
 		int loginedMemberId = 0;
+		Member loginedMember = null;
 		
 		if(session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
