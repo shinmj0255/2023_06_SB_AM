@@ -37,33 +37,24 @@ public interface ReplyDao {
 	List<Reply> getReplies(String relTypeCode, int relId);
 
 	@Select("""
-			SELECT R.*, M.nickname AS writerName
-				FROM reply AS R
-				INNER JOIN `member` AS M
-				ON R.memberId = M.id
-				WHERE R.memberId = #{memberId}
-				AND R.relTypeCode = #{relTypeCode}
-				AND R.relId = #{relId}	
+			SELECT *
+				FROM reply
+				WHERE id = #{id}
 			""")
-	Reply getForPrintReplyId(int id);
+	Reply getReply(int id);
 
 	@Update("""
 			UPDATE reply
-				SET `body` = #{body}
+				SET updateDate = NOW()
+					, `body` = #{body}
 				WHERE id = #{id} 
-				AND memberId = #{memberId}
-				AND relTypeCode = #{relTypeCode}
-				AND relId = #{relId}
 			""")
-	void modifyReply(int loginedMemberId, String relTypeCode, int relId, String body);
+	void modifyReply(int id, String body);
 
 	@Delete("""
 			DELETE FROM reply
 				WHERE id = #{id}
-				AND memberId = #{memberId}
-				AND relTypeCode = #{relTypeCode}
-				AND relId = #{relId}
 			""")
-	void deleteReply(int loginedMemberId, String relTypeCode, int relId, int id);
+	void deleteReply(int id);
 	
 }

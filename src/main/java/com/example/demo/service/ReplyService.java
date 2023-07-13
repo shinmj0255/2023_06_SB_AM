@@ -26,17 +26,17 @@ public class ReplyService {
 		return replyDao.getReplies(relTypeCode, relId);
 	}
 
-	public Reply getForPrintReplyId(int id) {
-		return replyDao.getForPrintReplyId(id);
+	public Reply getReply(int id) {
+		return replyDao.getReply(id);
 	}
 
-	public void modifyReply(int loginedMemberId, String relTypeCode, int relId, String body) {
-		replyDao.modifyReply(loginedMemberId, relTypeCode, relId, body);
+	public void modifyReply(int id, String body) {
+		replyDao.modifyReply(id, body);
+		
 	}
 
-	public void deleteReply(int loginedMemberId, String relTypeCode, int relId, int id) {
-		replyDao.deleteReply(loginedMemberId, relTypeCode, relId, id);
+	public void deleteReply(int id) {
+		replyDao.deleteReply(id);
 	}
-
 	
 }
