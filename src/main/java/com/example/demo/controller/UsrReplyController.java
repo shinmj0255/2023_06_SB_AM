@@ -30,4 +30,14 @@ public class UsrReplyController {
 		return Util.jsReplace("댓글 작성 완료", Util.f("../article/detail?id=%d", relId));
 	}
 	
+//	@RequestMapping("usr/reply/doModify")
+//	@ResponseBody
+//	public String doModify(String relTypeCode, int relId, String body) {
+//		
+//		replyService.modifyReply(rq.getLoginedMemberId(), relTypeCode, relId, body);
+//		
+//		
+//		return Util.jsReplace("댓글 수정 완료", Util.f("../article/detail?id=%d", relId));
+//	}
+	
 }
