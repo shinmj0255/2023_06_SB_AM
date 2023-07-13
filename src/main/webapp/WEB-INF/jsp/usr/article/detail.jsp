@@ -27,6 +27,7 @@
 	}
 	
 	getReactionPoint();
+	
 </script>
 
 <section class="mt-8">
@@ -98,29 +99,55 @@
 </section>
 
 <section class="my-5 text-xl">
-		<div class="container mx-auto px-3">
-			<h2>댓글</h2>
-			
-			<c:forEach var="reply" items="${replies }">
-				<div class="text-base py-4 pl-16 border-bottom-line">
-					<div class="font-semibold"><span>${reply.writerName }</span></div>
-					<div class="my-1 text-lg pl-2"><span>${reply.getForPrintBody() }</span></div>
-					<div class="text-xs text-gray-400"><span>${reply.updateDate }</span></div>
+	<div class="container mx-auto px-3">
+		<h2>댓글</h2>
+
+		<c:forEach var="reply" items="${replies }">
+			<div class="text-base py-4 pl-16 border-bottom-line">
+				<div class="font-semibold">
+					<span>${reply.writerName }</span>
 				</div>
-			</c:forEach>
-			
-			<c:if test="${rq.loginedMemberId != 0 }">
-				<form action="../reply/doWrite" method="POST">
-					<input type="hidden" name="relTypeCode" value="article"/>
-					<input type="hidden" name="relId" value="${article.id }"/>
-					<div class="mt-4 border border-gray-400 rounded-lg text-base p-4">
-						<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
-						<textarea class="textarea textarea-bordered w-full" name="body" placeholder="댓글을 남겨보세요"></textarea>
-						<div class="mt-1 flex justify-end"><button class="btn btn-warning btn-sm">등록</button></div>
+				<div class="my-1 text-lg pl-2">
+					<span>${reply.getForPrintBody() }</span>
+				</div>
+				<div class="text-xs text-gray-400">
+					<span>${reply.updateDate }</span>
+				</div>
+			</div>
+			<section class="flex justify-end">
+				<div class="dropdown dropdown-right">
+					<label tabindex="0" class="btn m-1">⁝</label>
+					<ul tabindex="0"
+						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+						<c:if test="${reply.memberId == loginedMemberId }">
+							<li><a href="../reply/doModify?id=${reply.id }">수정</a></li>
+
+							<li><a href="../reply/doDelete?id=${reply.id }"
+								onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제</a></li>
+						</c:if>
+					</ul>
+				</div>
+			</section>
+		</c:forEach>
+
+
+		<c:if test="${rq.loginedMemberId != 0 }">
+			<form action="../reply/doWrite" method="POST">
+				<input type="hidden" name="relTypeCode" value="article" /> <input
+					type="hidden" name="relId" value="${article.id }" />
+				<div class="mt-4 border border-gray-400 rounded-lg text-base p-4">
+					<div class="mb-2">
+						<span>${rq.loginedMember.nickname }</span>
 					</div>
-				</form>
-			</c:if>
-		</div>
-	</section>
+					<textarea class="textarea textarea-bordered w-full" name="body"
+						placeholder="댓글을 남겨보세요"></textarea>
+					<div class="mt-1 flex justify-end">
+						<button class="btn btn-warning btn-sm">등록</button>
+					</div>
+				</div>
+			</form>
+		</c:if>
+	</div>
+</section>
 
 <%@ include file="../common/foot.jsp"%>
