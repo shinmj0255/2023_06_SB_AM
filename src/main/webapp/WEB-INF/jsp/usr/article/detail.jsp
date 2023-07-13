@@ -97,24 +97,30 @@
 	</div>
 </section>
 
-<section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
-		<h2>댓글</h2>
-		<c:forEach var="reply" items="${replies }">
-		<div class="text-base py-2 pl-16 border-bottom-line">
-			<div class="font-semibold"><span>${reply.writerName }</span></div>
-			<div class="my-1 pl-2"><span>${reply.body }</span></div>
-			<div class="text-xs text-gray-400"><span>${reply.updateDate }</span></div>
+<section class="my-5 text-xl">
+		<div class="container mx-auto px-3">
+			<h2>댓글</h2>
+			
+			<c:forEach var="reply" items="${replies }">
+				<div class="text-base py-4 pl-16 border-bottom-line">
+					<div class="font-semibold"><span>${reply.writerName }</span></div>
+					<div class="my-1 text-lg pl-2"><span>${reply.getForPrintBody() }</span></div>
+					<div class="text-xs text-gray-400"><span>${reply.updateDate }</span></div>
+				</div>
+			</c:forEach>
+			
+			<c:if test="${rq.loginedMemberId != 0 }">
+				<form action="../reply/doWrite" method="POST">
+					<input type="hidden" name="relTypeCode" value="article"/>
+					<input type="hidden" name="relId" value="${article.id }"/>
+					<div class="mt-4 border border-gray-400 rounded-lg text-base p-4">
+						<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
+						<textarea class="textarea textarea-bordered w-full" name="body" placeholder="댓글을 남겨보세요"></textarea>
+						<div class="mt-1 flex justify-end"><button class="btn btn-warning btn-sm">등록</button></div>
+					</div>
+				</form>
+			</c:if>
 		</div>
-		</c:forEach>
-		<form action="../reply/doWrite" method="POST">
-		<div class="mt-4 border-gray-400 rounded-lg p-4">
-			<div class="mb-2"><span>닉네임</span></div>
-			<textarea class="textarea textarea-bordered w-full" name="body" placeholder="댓글을 남겨주세요"></textarea>
-			<div class="mt-1 flex justify-end"><button class="btn btn-warning btn-sm">등록</button></div>
-		</div>	
-		</form>
-	</div>
-</section>
+	</section>
 
 <%@ include file="../common/foot.jsp"%>

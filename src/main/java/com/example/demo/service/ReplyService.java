@@ -14,6 +14,10 @@ public class ReplyService {
 	private ReplyDao replyDao;
 	
 	@Autowired
+	ReplyService(ReplyDao replyDao){
+		this.replyDao = replyDao;
+	}
+
 	public void writeReply(int loginedMemberId, String relTypeCode, int relId, String body) {
 		replyDao.writeReply(loginedMemberId, relTypeCode, relId, body);
 	}

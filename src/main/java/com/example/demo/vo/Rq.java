@@ -39,11 +39,14 @@ public class Rq {
 		
 		if(session.getAttribute("loginedMemberId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMember = (Member) session.getAttribute("loginedMember");
 		}
 		
 		this.loginedMemberId = loginedMemberId;
+		this.loginedMember = loginedMember;
 		
 		this.req.setAttribute("rq", this);
+		
 	}
 
 	public void jsPrintHistoryBack(String msg) {
@@ -64,10 +67,12 @@ public class Rq {
 
 	public void login(Member member) {
 		this.session.setAttribute("loginedMemberId", member.getId());
+		this.session.setAttribute("loginedMember", member);
 	}
 
 	public void logout() {
 		this.session.removeAttribute("loginedMemberId");
+		this.session.removeAttribute("loginedMember");
 	}
 
 	public String jsReturnOnView(String msg) {

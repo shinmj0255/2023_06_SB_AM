@@ -102,7 +102,7 @@ public class UsrArticleController {
 
 		Cookie oldCookie = null;
 		Cookie[] cookies = req.getCookies();
-
+		
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("VCnt")) {
@@ -110,7 +110,7 @@ public class UsrArticleController {
 				}
 			}
 		}
-
+		
 		if (oldCookie != null) {
 			if (!oldCookie.getValue().contains("[" + id + "]")) {
 				articleService.increaseVCnt(id);
@@ -126,12 +126,13 @@ public class UsrArticleController {
 			newCookie.setMaxAge(30 * 60);
 			resp.addCookie(newCookie);
 		}
-
-		Article article = articleService.getForPrintArticle(id);
 		
-		List<Reply> replies = replyService.getReplies("article", id);
+		Article article = articleService.getForPrintArticle(id);
 
+		List<Reply> replies = replyService.getReplies("article", id);
+		
 		model.addAttribute("article", article);
+		model.addAttribute("replies", replies);
 
 		return "usr/article/detail";
 	}

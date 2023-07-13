@@ -19,6 +19,6 @@ public class Reply {
 	private String writerName;
 	
 	public String getForPrintBody() {
-		return this.body.replace("\n", "<br />");
+		return this.body.replaceAll("\n", "<br />");
 	}
 }

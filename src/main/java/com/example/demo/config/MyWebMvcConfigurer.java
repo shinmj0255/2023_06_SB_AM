@@ -30,14 +30,18 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		ir.addPathPatterns("/**");
 		ir.addPathPatterns("/favicon.ico");
 		ir.excludePathPatterns("/resource/**");
-		
+
 		ir = registry.addInterceptor(needLoginInterceptor);
-		ir.addPathPatterns("/usr/article/doWrite");
 		ir.addPathPatterns("/usr/article/write");
+		ir.addPathPatterns("/usr/article/doWrite");
 		ir.addPathPatterns("/usr/article/modify");
 		ir.addPathPatterns("/usr/article/doModify");
 		ir.addPathPatterns("/usr/article/doDelete");
 		ir.addPathPatterns("/usr/member/doLogout");
+		ir.addPathPatterns("/usr/reactionPoint/getReactionPoint");
+		ir.addPathPatterns("/usr/reactionPoint/doInsertReactionPoint");
+		ir.addPathPatterns("/usr/reactionPoint/doDeleteReactionPoint");
+		ir.addPathPatterns("/usr/reply/doWrite");
 	}
 
 }

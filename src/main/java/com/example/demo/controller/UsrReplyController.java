@@ -20,13 +20,14 @@ public class UsrReplyController {
 		this.replyService = replyService;
 		this.rq = rq;
 	}
-	@RequestMapping("/usr/reply/doWrite")
+	
+	@RequestMapping("usr/reply/doWrite")
 	@ResponseBody
 	public String doWrite(String relTypeCode, int relId, String body) {
 		
 		replyService.writeReply(rq.getLoginedMemberId(), relTypeCode, relId, body);
 		
-		return Util.jsReplace(Util.f("댓글 작성 완료", Util.f("../article/detail?id=%d", relId));
+		return Util.jsReplace("댓글 작성 완료", Util.f("../article/detail?id=%d", relId));
 	}
 	
 }

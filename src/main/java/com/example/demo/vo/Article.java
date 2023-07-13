@@ -23,6 +23,6 @@ public class Article {
 	private boolean actorCanChangeData;
 	
 	public String getForPrintBody() {
-		return this.body.replace("\n", "<br />");
+		return this.body.replaceAll("\n", "<br />");
 	}
 }
