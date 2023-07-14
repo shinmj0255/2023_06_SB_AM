@@ -94,12 +94,22 @@
 </section>
 
 <script>
+		originalId = null;
+		originalForm = null;
+		
 		function replyModify_getForm(replyId, i) {
+			
+			if (originalForm != null) {
+				replyModify_cancle(originalId);
+			}
 			
 			$.get('../reply/getReplyContent', {
 				id : replyId
 			}, function(data){
 				let replyContent = $('#' + i);
+				
+				originalId = i;
+				originalForm = replyContent.html();
 				
 				let addHtml = `
 					<form action="../reply/doModify" method="POST">
@@ -108,7 +118,7 @@
 							<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
 							<textarea class="textarea textarea-bordered w-full" name="body" placeholder="댓글을 남겨보세요">\${data.data1.body}</textarea>
 							<div class="mt-1 flex justify-end">
-								<a class="btn btn-warning btn-sm mr-2" onclick="replyModify_cancle();">취소</a>
+								<a class="btn btn-warning btn-sm mr-2" onclick="replyModify_cancle(\${i});">취소</a>
 								<button class="btn btn-warning btn-sm">수정</button>
 							</div>
 						</div>
@@ -121,10 +131,14 @@
 			}, 'json')
 		}
 		
-		function replyModify_cancle() {
+		function replyModify_cancle(i) {
+			let replyContent = $('#' + i);
+			replyContent.html(originalForm);
 			
+			originalId = null;
+			originalForm = null;
 		}
-</script>
+	</script>
 
 <section class="my-5 text-xl">
 	<div class="container mx-auto px-3">
