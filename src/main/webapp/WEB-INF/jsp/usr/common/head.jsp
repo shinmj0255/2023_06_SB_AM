@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="shortcut icon" href="/resource/images/favicon.ico" />
+<link rel="shortcut icon" href="/resource/images/favicon-32x32.png" />
 <!-- 테일윈드 불러오기 -->
 <!-- 노말라이즈, 라이브러리 -->
 <link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.7/dist/full.css" rel="stylesheet" type="text/css" />
@@ -21,7 +21,7 @@
 </head>
 <body>
 	<div class="h-20 flex container mx-auto text-4xl">
-		<a class="px-3 flex items-center" href="/"><img src="/resource/images/favicon.ico"/></a>
+		<a class="px-3 flex items-center" href="/"><img src="/resource/images/favicon.ico" /></a>
 		<div class="flex-grow"></div>
 		<ul class="flex">
 			<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/">HOME</a></li>
