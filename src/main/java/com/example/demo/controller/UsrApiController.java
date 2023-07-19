@@ -8,6 +8,6 @@ public class UsrApiController {
 	
 	@RequestMapping("/usr/api/APITest")
 	public String APITest() {
-		return "/usr/api/APITest";
+		return "usr/api/APITest";
 	}
 }
