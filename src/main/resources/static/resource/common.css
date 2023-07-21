@@ -89,5 +89,12 @@ html > body .ProseMirror, html > body .toastui-editor-contents {
 	right: 20px;
 	font-size: 3rem;
 	top: -5px;
-	cursor: pointer;
+	cursor: pointer;	
+}
+
+#map {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
 }

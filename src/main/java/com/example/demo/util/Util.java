@@ -1,27 +1,29 @@
 package com.example.demo.util;
 
+import java.security.MessageDigest;
+
 public class Util {
 	public static boolean empty(Object obj) {
-
+		
 		if (obj == null) {
 			return true;
 		}
-
+		
 		String str = (String) obj;
-
+		
 		return str.trim().length() == 0;
 	}
-
+	
 	public static String f(String format, Object... args) {
 		return String.format(format, args);
 	}
-
+	
 	public static String jsHistoryBack(String msg) {
-
+		
 		if (msg == null) {
 			msg = "";
 		}
-
+		
 		return Util.f("""
 						<script>
 							const msg = '%s'.trim();
@@ -38,11 +40,11 @@ public class Util {
 		if (msg == null) {
 			msg = "";
 		}
-
+		
 		if (uri == null) {
 			uri = "";
 		}
-
+		
 		return Util.f("""
 						<script>
 							const msg = '%s'.trim();
@@ -52,6 +54,26 @@ public class Util {
 							location.replace('%s');
 						</script>
 					""", msg, uri);
+	}
+	
+	public static String sha256(String originalPw) {
 		
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hash = digest.digest(originalPw.getBytes("UTF-8"));
+			StringBuffer hexString = new StringBuffer();
+
+			for (int i = 0; i < hash.length; i++) {
+				String hex = Integer.toHexString(0xff & hash[i]);
+				if (hex.length() == 1)
+					hexString.append('0');
+				hexString.append(hex);
+			}
+
+			return hexString.toString();
+
+		} catch (Exception ex) {
+			return "";
+		}
 	}
 }

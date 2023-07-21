@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS SB_AM;
 CREATE DATABASE SB_AM;
 USE SB_AM;
 
+# article(게시물) 테이블 생성
 CREATE TABLE article(
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -10,10 +11,12 @@ CREATE TABLE article(
     `body` TEXT NOT NULL
 );
 
+# article 테이블에 컬럼 추가
 ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL AFTER updateDate;
 ALTER TABLE article ADD COLUMN boardId INT UNSIGNED NOT NULL AFTER memberId;
 ALTER TABLE article ADD COLUMN VCnt INT UNSIGNED NOT NULL DEFAULT 0;
 
+# `member`(회원) 테이블 생성
 CREATE TABLE `member`(
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -29,6 +32,7 @@ CREATE TABLE `member`(
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
+# board(게시판) 테이블 생성
 CREATE TABLE board(
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -39,6 +43,7 @@ CREATE TABLE board(
     delDate DATETIME COMMENT '삭제 날짜'
 );
 
+# reactionPoint(추천: 좋아요/싫어요) 테이블 생성
 CREATE TABLE reactionPoint (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -49,6 +54,7 @@ CREATE TABLE reactionPoint (
     `point` INT NOT NULL DEFAULT 0
 );
 
+# reply(댓글) 테이블 생성
 CREATE TABLE reply (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -87,7 +93,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
-loginPw = 'admin',
+loginPw = SHA2('admin', 256),
 authLevel = 3,
 `name` = 'admin',
 nickname = 'admin',
@@ -98,7 +104,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test',
-loginPw = 'test',
+loginPw = SHA2('test', 256),
 `name` = 'test',
 nickname = 'test',
 cellphoneNum = '01011112222',
@@ -108,7 +114,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test1',
-loginPw = 'test1',
+loginPw = SHA2('test1', 256),
 `name` = 'test1',
 nickname = 'test1',
 cellphoneNum = '01033332222',
@@ -171,41 +177,32 @@ relTypeCode = 'article',
 relId = 3,
 `point` = 1;
 
-#2번 회원이 2번글에 댓글
-INSERT INTO reply
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 2,
-`body` = '댓글1';
-
-#2번 회원이 2번글에 댓글
-INSERT INTO reply
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 2,
-`body` = '댓글2';
-
-#3번 회원이 2번글에 댓글
+# 3번 회원이 1번 글에 댓글
 INSERT INTO reply
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 3,
 relTypeCode = 'article',
-relId = 2,
-`body` = '댓글3';
+relId = 1,
+`body` = '댓글 1';
 
-#3번 회원이 3번글에 댓글
+# 2번 회원이 3번 글에 댓글
 INSERT INTO reply
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 3,
+memberId = 2,
 relTypeCode = 'article',
 relId = 3,
-`body` = '댓글4';
+`body` = '댓글 2';
+
+# 1번 회원이 2번 글에 댓글
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`body` = '댓글 3';
 
 SELECT * FROM article ORDER BY id DESC;
 SELECT * FROM `member`;
