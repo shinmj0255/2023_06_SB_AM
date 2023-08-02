@@ -12,6 +12,22 @@ html > body, html > body .ProseMirror, html > body .toastui-editor-contents {
 	text-underline-position:under;
 }
 
+html[data-theme="dark"] :is(.table-box-type-1 > table th, .table-box-type-1 > table td) {
+	border-color: white;
+}
+
+.theme-toggle .fa-solid {
+	display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .fa-solid {
+	display: inline;
+}
+
+html[data-theme="dark"] .theme-toggle .fa-regular {
+	display: none;
+}
+
 .table-box-type-1 > table {
 	width: 100%;
 }
@@ -25,6 +41,10 @@ html > body, html > body .ProseMirror, html > body .toastui-editor-contents {
 html > body .ProseMirror, html > body .toastui-editor-contents {
 	text-align: left;
 	font-size: 1.25rem;
+}
+
+html > body .toast-ui-viewer .toastui-editor-contents {
+	text-align: center;
 }
 
 .btn-text-link {
@@ -87,14 +107,7 @@ html > body .ProseMirror, html > body .toastui-editor-contents {
 .layer > .close-x-btn {
 	position: absolute;
 	right: 20px;
-	font-size: 3rem;
+	font-size: 4rem;
 	top: -5px;
-	cursor: pointer;	
-}
-
-#map {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
+	cursor: pointer;
 }
